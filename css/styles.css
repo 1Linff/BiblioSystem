@@ -1,6 +1,4 @@
-/* ================================================
-   DESIGN TOKENS — paleta bibliográfica
-   ================================================ */
+
 :root {
   --ink:       #1a1a2e;
   --paper:     #f5f0e8;
@@ -18,9 +16,6 @@
   --font-body: 'Segoe UI', system-ui, sans-serif;
 }
 
-/* ================================================
-   RESET / BASE
-   ================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -56,9 +51,6 @@ input:focus, select:focus, textarea:focus {
 
 a { color: var(--teal); text-decoration: none; }
 
-/* ================================================
-   LAYOUT — Grid principal
-   ================================================ */
 #root { display: flex; flex-direction: column; min-height: 100vh; }
 
 /* HEADER */
@@ -116,9 +108,6 @@ a { color: var(--teal); text-decoration: none; }
   font-size: .8rem;
 }
 
-/* ================================================
-   CARDS — Box Model em ação
-   ================================================ */
 .card {
   background: var(--cream);
   border: 1px solid var(--border);
@@ -139,9 +128,6 @@ a { color: var(--teal); text-decoration: none; }
   gap: .5rem;
 }
 
-/* ================================================
-   FORMULÁRIO — Cadastro de Livro
-   ================================================ */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -184,9 +170,6 @@ a { color: var(--teal); text-decoration: none; }
   font-size: .95rem;
 }
 
-/* ================================================
-   TABELA / LISTA DE LIVROS — Grid Layout
-   ================================================ */
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
