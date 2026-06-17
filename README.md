@@ -1,112 +1,67 @@
-# 📚 BiblioSystem — Sistema de Gerenciamento de Biblioteca
+# BiblioSystem - Sistema de Gerenciamento de Biblioteca
 
-> Atividade Avaliativa Final — UniCesumar · Campus Ponta Grossa  
-> Curso: Engenharia de Software · 3º Período
-
----
-
-## 📖 Descrição
-
-Sistema web para **cadastro e consulta de livros** de uma biblioteca, com controle de empréstimos e devolução. Desenvolvido com HTML5 semântico, CSS moderno e React 18 (via CDN + Babel standalone), sem necessidade de build tools.
+Trabalho desenvolvido para a Atividade Avaliativa Final do curso de Engenharia de Software (3º Período) da UniCesumar - Campus Ponta Grossa.
 
 ---
 
-## ✅ Requisitos Atendidos
+## Sobre o Projeto
 
-### 1. Estrutura e Layout
-- **HTML5 semântico**: uso de `<header>`, `<main>`, `<footer>`, `<nav>`
-- **Box Model**: padding, margin e border aplicados em cards, formulários e botões
-- **Flexbox**: navegação (`.nav`), formulários (`.form-group`), ações de cards (`.book-actions`)
-- **CSS Grid Layout**: grid de livros (`.books-grid`), estatísticas (`.stats-grid`), formulário (`.form-grid`)
-- **Media Queries**: responsividade total para mobile (`max-width: 768px`, `480px`) e `prefers-reduced-motion`
-
-### 2. Estilo e Componentização
-- **Design System próprio**: tokens de design via CSS Custom Properties (`--ink`, `--teal`, `--gold`…)
-- **Styled Components equivalente**: classes reutilizáveis seguindo o padrão BEM-like (`.btn-primary`, `.book-card`, `.stat-card`)
-- **Componentização React**: `FormGroup`, `Badge`, `Dashboard`, `CadastroLivro`, `Acervo`, `Emprestimos`, `ToastProvider`
-- **Design System principles**: tipografia `Georgia` (display) + `Segoe UI` (corpo), escala tipográfica, paleta consistente
-
-### 3. Interatividade e Lógica
-- **Validação de formulários** com JavaScript puro: `validarLivro()`, `validarEmprestimo()` — sem bibliotecas externas
-- **Manipulação de Eventos e Listeners**: `onChange`, `onKeyDown`, `onClick` em todos os formulários e botões
-- **LocalStorage**: persistência de livros (`biblioteca_livros`) e empréstimos (`biblioteca_emprestimos`) — helper `Storage.get/set`
-- **Fetch API + JSON**: integração com a [Open Library API](https://openlibrary.org) para busca de livros externos, com tratamento de erro
-
-### 4. Desenvolvimento com React
-- **Componentes funcionais** com Props
-- **useState** para estado local de formulários, buscas, filtros e modais
-- **useEffect** para sincronização de disponibilidade de livros com empréstimos
-- **useCallback** para otimização de handlers
-- **useContext** para contexto global de notificações (Toast)
-- **Hooks customizados**: `useLivros()`, `useEmprestimos()`, `useToast()`
-- **Virtual DOM** gerenciado pelo React
-- **Roteamento** simulado via estado (SPA de arquivo único — sem servidor necessário)
-
-### 5. Boas Práticas
-- Código organizado em seções comentadas
-- Separação de responsabilidades por componente/hook
-- Nomenclatura em português para o domínio, inglês para padrões técnicos
-- README completo com instruções de instalação e execução
+O BiblioSystem é um sistema web para o controle de acervo de uma biblioteca. Ele permite cadastrar livros, consultar o acervo, e registrar empréstimos e devoluções. O projeto foi construído utilizando HTML, CSS e React (importado via CDN com Babel standalone), o que significa que ele roda diretamente no navegador sem a necessidade de configurar ferramentas complexas como Vite ou Webpack.
 
 ---
 
-## 🚀 Como Executar
+## Requisitos Implementados
 
-### Opção 1 — Abertura direta (recomendada para demonstração)
-```bash
-# Simplesmente abra o arquivo no navegador:
-open index.html
-# ou arraste o arquivo para o Chrome/Firefox/Edge
-```
+O desenvolvimento do sistema atendeu aos seguintes pontos exigidos na atividade:
 
-> ⚠️ A busca na Open Library requer conexão com a internet.
+**1. Estrutura Visual e Layout**
+- Utilizamos HTML5 semântico para a estruturação da página (tags header, main, footer, nav).
+- O layout é responsivo (adapta para telas menores) e foi construído utilizando CSS Flexbox e Grid Layout para organizar os elementos da tela e a lista de livros.
+- O CSS foi modularizado e dividido em arquivos diferentes (geral, layout e componentes) para facilitar a manutenção.
 
-### Opção 2 — Servidor local (para evitar restrições CORS em alguns navegadores)
-```bash
-# Com Python 3:
-python3 -m http.server 3000
-# Acesse: http://localhost:3000
+**2. Lógica e Interatividade (JavaScript puro)**
+- Toda a validação dos formulários (verificação de campos vazios, tamanho de ISBN, datas) foi feita manualmente com JavaScript.
+- Os dados do sistema, como os livros cadastrados e o histórico de empréstimos, são salvos no LocalStorage do navegador.
+- Fizemos uma integração com a API pública da Open Library utilizando a Fetch API. Isso permite pesquisar livros reais no Dashboard.
 
-# Com Node.js (npx):
-npx serve .
-```
+**3. Desenvolvimento com React**
+- A interface foi construída dividindo as partes do sistema em componentes funcionais utilizando Props.
+- Fizemos o gerenciamento de estado e ciclo de vida usando os hooks do React (`useState`, `useEffect`, `useCallback` e `useContext`).
+- A navegação entre as telas do sistema foi feita simulando um roteamento através do estado do React.
 
 ---
 
-## 🗂 Funcionalidades
+## Funcionalidades do Sistema
 
-| Módulo | Funcionalidade |
-|--------|---------------|
-| **Dashboard** | Estatísticas do acervo, frase literária aleatória, busca via Open Library API |
-| **Cadastrar** | Formulário com validação completa, edição de livros existentes |
-| **Acervo** | Grid de livros com busca, filtro por status e gênero, registro de empréstimos e devoluções |
-| **Empréstimos** | Histórico completo, destaque de itens atrasados, registrar devolução |
+- **Início (Dashboard):** Tela inicial com as estatísticas do sistema e um campo de busca para consultar livros na base de dados mundial da Open Library.
+- **Cadastrar:** Formulário completo para a entrada de novos livros no sistema, e que também serve para editar informações de livros já salvos.
+- **Acervo:** Lista geral mostrando todos os livros. Possui filtros por status (disponível/emprestado) e opções rápidas para registrar o empréstimo ou devolver um livro.
+- **Empréstimos:** Histórico mostrando quem alugou cada livro, datas de devolução e indicativo visual caso algum empréstimo esteja atrasado.
 
 ---
 
-## 🛠 Tecnologias Utilizadas
+## Como Executar o Projeto
 
-- HTML5 (semântico)
-- CSS3 (Flexbox, Grid, Custom Properties, Media Queries, Animations)
-- JavaScript ES2022 (async/await, optional chaining, destructuring)
-- React 18 (CDN)
-- React Babel Standalone (transpilação JSX no browser)
-- Web Storage API (localStorage)
-- Fetch API
-- Open Library REST API (https://openlibrary.org)
+A forma mais recomendada de rodar o projeto é utilizando um servidor local. Como o sistema faz requisições a arquivos externos (importação dos arquivos JS) e consome uma API da internet, abrir o arquivo dando apenas dois cliques pode fazer com que o navegador bloqueie a tela por questões de segurança (CORS).
 
----
+**Passo a passo com o VS Code:**
+1. Abra a pasta do projeto no Visual Studio Code.
+2. Instale a extensão "Live Server".
+3. Clique com o botão direito no arquivo `index.html` e selecione "Open with Live Server".
 
-## 👥 Equipe
-
-- Alunos:
-Arthur Pacher Santos, Gabriel Cesar Marteloti da Luz, Ketely Hornns Duarte Vicente, Pedro Henrique Antunes Pereira
-
-- Curso: Engenharia de Software — 3º Período
-- Instituição: UniCesumar — Campus Ponta Grossa
+*(Alternativa via terminal)*:
+Se tiver o Node.js ou Python instalados, abra o terminal na pasta do projeto e rode um dos comandos abaixo:
+- Node: `npx serve .`
+- Python: `python -m http.server 3000`
 
 ---
 
-## 📄 Licença
+## Equipe
 
-Projeto acadêmico — uso restrito à atividade avaliativa.
+- Arthur Pacher Santos
+- Gabriel Cesar Marteloti da Luz
+- Ketely Hornns Duarte Vicente
+- Pedro Henrique Antunes Pereira
+
+**Instituição:** UniCesumar — Campus Ponta Grossa
+**Curso:** Engenharia de Software — 3º Período
