@@ -99,7 +99,9 @@ npx serve .
 
 ## 👥 Equipe
 
-- Aluno(a): ___________________________
+- Alunos:
+Arthur Pacher Santos, Gabriel Cesar Marteloti da Luz, Ketely Hornns Duarte Vicente, Pedro Henrique Antunes Pereira
+
 - Curso: Engenharia de Software — 3º Período
 - Instituição: UniCesumar — Campus Ponta Grossa
 
