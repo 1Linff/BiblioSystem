@@ -1,62 +1,5 @@
 const { useState, useEffect, useCallback, createContext, useContext } = React;
 
-/* ================================================
-   CONSTANTES
-   ================================================ */
-const GENEROS = ['Romance','Ficção Científica','Fantasia','Terror','Mistério',
-                 'Biografia','História','Ciência','Filosofia','Tecnologia','Outro'];
-
-const QUOTES = [
-  { text: 'Uma sala sem livros é como um corpo sem alma.', author: '— Cícero' },
-  { text: 'Não existe navio que possa nos conduzir a uma viagem distante como um livro.', author: '— Emily Dickinson' },
-  { text: 'Os livros são espelhos: só se vê neles o que já se tem dentro de si.', author: '— Carlos Ruiz Zafón' },
-];
-
-const OPEN_LIBRARY_API = 'https://openlibrary.org/search.json?title=';
-const LIVRO_VAZIO = { titulo: '', autor: '', isbn: '', ano: '', editora: '', genero: '', sinopse: '' };
-
-/* ================================================
-   STORAGE HELPERS
-   ================================================ */
-const Storage = {
-  get: (key, fallback = []) => {
-    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
-    catch { return fallback; }
-  },
-  set: (key, value) => {
-    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
-    catch { return false; }
-  },
-};
-
-/* ================================================
-   VALIDAÇÃO
-   ================================================ */
-function validarLivro(dados) {
-  const erros = {};
-  if (!dados.titulo?.trim())                                                erros.titulo  = 'Título é obrigatório.';
-  else if (dados.titulo.trim().length < 2)                                  erros.titulo  = 'Título muito curto.';
-  if (!dados.autor?.trim())                                                 erros.autor   = 'Autor é obrigatório.';
-  if (!dados.isbn?.trim())                                                  erros.isbn    = 'ISBN é obrigatório.';
-  else if (!/^\d{10}(\d{3})?$/.test(dados.isbn.replace(/-/g, '')))         erros.isbn    = 'ISBN deve ter 10 ou 13 dígitos.';
-  if (!dados.ano?.trim())                                                   erros.ano     = 'Ano é obrigatório.';
-  else if (isNaN(dados.ano) || +dados.ano < 1000 || +dados.ano > new Date().getFullYear())
-                                                                            erros.ano     = 'Ano inválido.';
-  if (!dados.genero)                                                        erros.genero  = 'Selecione um gênero.';
-  return erros;
-}
-
-function validarEmprestimo(dados) {
-  const erros = {};
-  if (!dados.leitor?.trim())    erros.leitor        = 'Nome do leitor é obrigatório.';
-  if (!dados.dataDevolucao)     erros.dataDevolucao = 'Data de devolução é obrigatória.';
-  else if (new Date(dados.dataDevolucao) <= new Date()) erros.dataDevolucao = 'Data deve ser futura.';
-  return erros;
-}
-
-/* ================================================
-   CONTEXT — Toast
-   ================================================ */
 const ToastCtx = createContext(null);
 
 function ToastProvider({ children }) {
@@ -78,9 +21,6 @@ function ToastProvider({ children }) {
 
 const useToast = () => useContext(ToastCtx);
 
-/* ================================================
-   HOOK — useLivros
-   ================================================ */
 function useLivros() {
   const [livros, setLivros] = useState(() => Storage.get('biblioteca_livros', []));
   const salvar = useCallback((lista) => { setLivros(lista); Storage.set('biblioteca_livros', lista); }, []);
@@ -94,9 +34,6 @@ function useLivros() {
   return { livros, cadastrar, remover, atualizar };
 }
 
-/* ================================================
-   HOOK — useEmprestimos
-   ================================================ */
 function useEmprestimos() {
   const [emprestimos, setEmprestimos] = useState(() => Storage.get('biblioteca_emprestimos', []));
   const salvar = useCallback((lista) => { setEmprestimos(lista); Storage.set('biblioteca_emprestimos', lista); }, []);
@@ -111,9 +48,6 @@ function useEmprestimos() {
   return { emprestimos, emprestar, devolver };
 }
 
-/* ================================================
-   COMPONENTS — UI reutilizável
-   ================================================ */
 function FormGroup({ label, error, children }) {
   return (
     <div className="form-group">
@@ -132,9 +66,6 @@ function Badge({ disponivel }) {
   );
 }
 
-/* ================================================
-   PAGE — Dashboard
-   ================================================ */
 function Dashboard({ livros, emprestimos }) {
   const [quote]      = useState(() => QUOTES[Math.floor(Math.random() * QUOTES.length)]);
   const [apiResults, setApiResults] = useState([]);
@@ -218,9 +149,6 @@ function Dashboard({ livros, emprestimos }) {
   );
 }
 
-/* ================================================
-   PAGE — CadastroLivro
-   ================================================ */
 function CadastroLivro({ livros, onCadastrar, editando, onAtualizar, onCancelarEdicao }) {
   const [form,  setForm]  = useState(editando ?? LIVRO_VAZIO);
   const [erros, setErros] = useState({});
@@ -294,9 +222,6 @@ function CadastroLivro({ livros, onCadastrar, editando, onAtualizar, onCancelarE
   );
 }
 
-/* ================================================
-   PAGE — Acervo
-   ================================================ */
 function Acervo({ livros, onRemover, onEditar, emprestimos, onEmprestimo, onDevolucao }) {
   const [busca,    setBusca]    = useState('');
   const [filtro,   setFiltro]   = useState('todos');
@@ -411,9 +336,6 @@ function Acervo({ livros, onRemover, onEditar, emprestimos, onEmprestimo, onDevo
   );
 }
 
-/* ================================================
-   PAGE — Emprestimos
-   ================================================ */
 function Emprestimos({ emprestimos, livros, onDevolucao }) {
   const [filtro, setFiltro] = useState('ativos');
   const toast = useToast();
@@ -456,7 +378,7 @@ function Emprestimos({ emprestimos, livros, onDevolucao }) {
                 <div className="loan-sub">👤 {e.leitor}</div>
                 <div className="loan-sub">
                   📅 Emprestado: {fmt(e.dataEmprestimo)} · Devolução: {fmt(e.dataDevolucao)}
-                  {isAtrasado(e) && <strong style={{ color: 'var(--red)', marginLeft: '.5rem' }}>⚠ ATRASADO</strong>}
+                  {isAtrasado(e) && <strong style={{ color: '#c0392b', marginLeft: '.5rem' }}>⚠ ATRASADO</strong>}
                   {e.devolvido && <span style={{ color: '#155724', marginLeft: '.5rem' }}>✓ Devolvido em {fmt(e.devolvidoEm)}</span>}
                 </div>
               </div>
@@ -471,9 +393,6 @@ function Emprestimos({ emprestimos, livros, onDevolucao }) {
   );
 }
 
-/* ================================================
-   APP — componente raiz
-   ================================================ */
 function App() {
   const [pagina,   setPagina]   = useState('dashboard');
   const [editando, setEditando] = useState(null);
@@ -552,9 +471,6 @@ function App() {
   );
 }
 
-/* ================================================
-   RENDER — entry point
-   ================================================ */
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ToastProvider>
